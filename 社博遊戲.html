@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>資研社駭客挑戰</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+body {
+    font-family: 'Share Tech Mono', monospace;
+    background: #050d1a url('社團頭像.png') center top no-repeat;
+    background-size: 200px;
+    color: #00f5ff;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+h1, h2, p {
+    text-align: center;
+}
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 30px;
+    font-size: 20px;
+}
+button {
+    background-color: #00f5ff;
+    color: #050d1a;
+    border: none;
+    padding: 12px 25px;
+    font-size: 20px;
+    cursor: pointer;
+    font-family: 'Share Tech Mono', monospace;
+    margin-top: 20px;
+}
+button:hover {
+    background-color: #00c2cc;
+}
+.stage {
+    display: none;
+    margin-top: 30px;
+}
+input {
+    padding: 8px;
+    font-size: 20px;
+    margin-top: 15px;
+    width: 70%;
+}
+a {
+    color: #ff66ff;
+    font-size: 22px;
+}
+.explanation {
+    margin-top: 12px;
+    color: #ff3333;
+    font-size: 18px;
+}
+.typing {
+    overflow: hidden;
+    border-right: .15em solid #00f5ff;
+    white-space: nowrap;
+    animation: typing 3s steps(40, end), blink-caret .75s step-end infinite;
+}
+@keyframes typing { from { width: 0 } to { width: 100% } }
+@keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #00f5ff; } }
+
+#matrixCanvas {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    z-index:-1;
+    background: rgba(5,13,26,0.95);
+}
+</style>
+</head>
+<body>
+
+<canvas id="matrixCanvas"></canvas>
+
+<div class="cover" id="cover" style="height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <h1 class="typing">CYGSH IRC 資研社駭客挑戰</h1>
+    <button onclick="startChallenge()">準備開始吧！</button>
+</div>
+
+<div class="container">
+    <div id="stage1" class="stage">
+        <p class="typing">第一關：聽說密碼藏在這個網頁的原始碼裡！快去找找看。</p>
+        <!-- 密碼是: MjAyNTA4MjY= -->
+        <input type="text" id="answer1" placeholder="輸入密碼">
+        <button onclick="checkAnswer(1)">提交</button>
+        <p class="explanation" id="exp1"></p>
+    </div>
+
+    <div id="stage2" class="stage">
+        <p class="typing">第二關：這是一位同學的公開個人資料，猜猜看他的密碼是什麼吧！</p>
+<pre>
+Name: Vicky
+Birthday: 2007-05-19
+</pre>
+        <input type="text" id="answer2" placeholder="輸入密碼">
+        <button onclick="checkAnswer(2)">提交</button>
+        <p class="explanation" id="exp2"></p>
+    </div>
+
+    <div id="stage3" class="stage">
+        <p class="typing">第三關：哪一個才是安全的網站？</p>
+        <ul>
+            <li><a href="#" onclick="chooseLink(false,'其實網域是 evil.com，不是真的 bank-secure.com')">http://login.bank-secure.com.evil.com</a></li>
+            <li><a href="#" onclick="chooseLink(true)">https://bank-secure.com/login</a></li>
+            <li><a href="#" onclick="chooseLink(false,'網址 bank-secure-login.com 看起來像真的，但其實不是官方網站')">https://bank-secure-login.com.fake.org</a></li>
+        </ul>
+        <p class="explanation" id="exp3"></p>
+    </div>
+
+    <div id="stage4" class="stage">
+        <p class="typing">第四關：二進位轉十進位！ 101101 是多少？</p>
+        <input type="text" id="answer4" placeholder="輸入數字">
+        <button onclick="checkAnswer(4)">提交</button>
+        <p class="explanation" id="exp4"></p>
+    </div>
+
+    <div id="stage5" class="stage">
+        <p class="typing">最後一關：請輸入我們社團的 IG 帳號</p>
+        <input type="text" id="answer5" placeholder="輸入帳號">
+        <button onclick="checkAnswer(5)">提交</button>
+        <p class="explanation" id="exp5"></p>
+    </div>
+
+    <div id="final" class="stage" style="text-align:center;">
+        <h2>🎉 恭喜破關！ 🎉</h2>
+        <p>FLAG{you_have_a_gift_to_receive}</p>
+        <p>追蹤我們 IG：<strong>cygsh_irc_12</strong></p>
+    </div>
+</div>
+
+<script>
+
+function startChallenge() {
+    document.getElementById("cover").style.display = "none";
+    document.getElementById("stage1").style.display = "block";
+}
+function checkAnswer(stage) {
+    let ans = document.getElementById("answer" + stage).value.trim();
+    let correct = false;
+    if(stage === 1 && ans === "MjAyNTA4MjY=") correct = true;
+    if(stage === 2 && ans === "Vicky20070519") correct = true;
+    if(stage === 4 && ans === "45") correct = true;
+    if(stage === 5 && ans === "cygsh_irc_12") correct = true;
+
+    if(correct) {
+        document.getElementById("exp" + stage).textContent = getExplanation(stage);
+        setTimeout(function() {
+            document.getElementById("stage" + stage).style.display = "none";
+            if(stage < 5) {
+                document.getElementById("stage" + (stage + 1)).style.display = "block";
+            } else {
+                document.getElementById("final").style.display = "block";
+            }
+        }, 1000);
+    } else {
+        alert("答案不正確，再試一次！");
+    }
+}
+function chooseLink(correct, reason="") {
+    if(correct) {
+        document.getElementById("exp3").textContent = getExplanation(3);
+        setTimeout(function() {
+            document.getElementById("stage3").style.display = "none";
+            document.getElementById("stage4").style.display = "block";
+        }, 1000);
+    } else {
+        document.getElementById("exp3").textContent = "錯誤！" + reason;
+    }
+}
+function getExplanation(stage) {
+    if(stage === 1) return "千萬不要把密碼直接寫在原始碼中！";
+    if(stage === 2) return "弱密碼(像是名字+生日)非常容易被猜中。";
+    if(stage === 3) return "要檢查網址的真實網域，避免被釣魚，否則你在釣魚賞站輸入的資料可能會被竊取。";
+    if(stage === 4) return "101101(二進位) = 45(十進位)。";
+    if(stage === 5) return "感謝挑戰！歡迎加入資研社！";
+    return "";
+}
+
+const canvas = document.getElementById("matrixCanvas");
+const ctx = canvas.getContext("2d");
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+const letters = "01";
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
+
+function draw() {
+    ctx.fillStyle = "rgba(5, 13, 26, 0.2)"; 
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ddee";
+    ctx.font = fontSize + "px monospace";
+    for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+        drops[i]++;
+    }
+}
+setInterval(draw, 35);
+</script>
+</body>
+</html>
