@@ -40,15 +40,25 @@ button:hover {
     display: none;
     margin-top: 30px;
 }
+.input-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
 input {
     padding: 8px;
     font-size: 20px;
-    margin-top: 15px;
-    width: 70%;
+    width: 60%;
 }
 a {
-    color: #ff66ff;
+    color: #00f5ff;
     font-size: 22px;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
 }
 .explanation {
     margin-top: 12px;
@@ -80,7 +90,7 @@ a {
     line-height: 1.8em;
 }
 .question-box code {
-    color: #ff66ff;
+    color: #00f5ff;
     font-size: 22px;
 }
 </style>
@@ -99,8 +109,10 @@ a {
     <div id="stage1" class="stage">
         <p class="typing">第一關：聽說密碼藏在這個網頁的原始碼裡！快去找找看。</p>
         <!-- 密碼是: MjAyNTA4MjY= -->
-        <input type="text" id="answer1" placeholder="輸入密碼">
-        <button onclick="checkAnswer(1)">提交</button>
+        <div class="input-row">
+            <input type="text" id="answer1" placeholder="輸入密碼">
+            <button onclick="checkAnswer(1)">提交</button>
+        </div>
         <p class="explanation" id="exp1"></p>
     </div>
 
@@ -111,8 +123,10 @@ a {
 Name: Vicky
 Birthday: 2007-05-19
 </pre>
-        <input type="text" id="answer2" placeholder="輸入密碼">
-        <button onclick="checkAnswer(2)">提交</button>
+        <div class="input-row">
+            <input type="text" id="answer2" placeholder="輸入密碼">
+            <button onclick="checkAnswer(2)">提交</button>
+        </div>
         <p class="explanation" id="exp2"></p>
     </div>
 
@@ -137,16 +151,20 @@ Birthday: 2007-05-19
                十進位：個位數 = 10⁰，十位數 = 10¹<br>
                二進位：最右邊 = 2⁰，右邊數來第二位 = 2¹，以此類推</p>
         </div>
-        <input type="text" id="answer4" placeholder="輸入數字">
-        <button onclick="checkAnswer(4)">提交</button>
+        <div class="input-row">
+            <input type="text" id="answer4" placeholder="輸入數字">
+            <button onclick="checkAnswer(4)">提交</button>
+        </div>
         <p class="explanation" id="exp4"></p>
     </div>
 
     <!-- 第五關 -->
     <div id="stage5" class="stage">
         <p class="typing">最後一關：請輸入我們社團的 IG 帳號</p>
-        <input type="text" id="answer5" placeholder="輸入帳號">
-        <button onclick="checkAnswer(5)">提交</button>
+        <div class="input-row">
+            <input type="text" id="answer5" placeholder="輸入帳號">
+            <button onclick="checkAnswer(5)">提交</button>
+        </div>
         <p class="explanation" id="exp5"></p>
     </div>
 
