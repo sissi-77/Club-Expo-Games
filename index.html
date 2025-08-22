@@ -118,8 +118,9 @@ Birthday: 2007-05-19
     <div id="stage4" class="stage">
         <p class="typing">第四關：二進位轉十進位！<br>
         題目：<code>101101</code><br>
-        概念：我們常見的十進位是逢十進一，那麼二進位就是逢二進一
-        提示：十進位的個位數是10的0次方，十位數是10的1次方，二進位也是一樣的規則，最右邊是2的0次方，右邊數來第二位是2的1次方</p>
+        概念：我們常見的十進位是逢十進一，那麼二進位就是逢二進一<br>
+        提示：十進位的個位數是10的0次方，十位數是10的1次方<br>
+             二進位也是一樣的規則，最右邊是2的0次方，右邊數來第二位是2的1次方</p>
         <input type="text" id="answer4" placeholder="輸入數字">
         <button onclick="checkAnswer(4)">提交</button>
         <p class="explanation" id="exp4"></p>
@@ -163,7 +164,7 @@ function checkAnswer(stage) {
             } else {
                 document.getElementById("final").style.display = "block";
             }
-        }, 1000);
+        }, 2000);
     } else {
         alert("答案不正確，再試一次！");
     }
