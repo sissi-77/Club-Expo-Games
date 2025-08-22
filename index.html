@@ -7,8 +7,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 body {
     font-family: 'Share Tech Mono', monospace;
-    background: #050d1a url('社團頭像.png') center top no-repeat;
-    background-size: 200px;
+    background: #050d1a;
     color: #00f5ff;
     margin: 0;
     padding: 0;
@@ -32,6 +31,7 @@ button {
     cursor: pointer;
     font-family: 'Share Tech Mono', monospace;
     margin-top: 20px;
+    border-radius: 8px;
 }
 button:hover {
     background-color: #00c2cc;
@@ -63,7 +63,6 @@ a {
 }
 @keyframes typing { from { width: 0 } to { width: 100% } }
 @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #00f5ff; } }
-
 #matrixCanvas {
     position: fixed;
     top:0; left:0;
@@ -83,6 +82,7 @@ a {
 </div>
 
 <div class="container">
+    <!-- 第一關 -->
     <div id="stage1" class="stage">
         <p class="typing">第一關：聽說密碼藏在這個網頁的原始碼裡！快去找找看。</p>
         <!-- 密碼是: MjAyNTA4MjY= -->
@@ -91,6 +91,7 @@ a {
         <p class="explanation" id="exp1"></p>
     </div>
 
+    <!-- 第二關 -->
     <div id="stage2" class="stage">
         <p class="typing">第二關：這是一位同學的公開個人資料，猜猜看他的密碼是什麼吧！</p>
 <pre>
@@ -102,23 +103,29 @@ Birthday: 2007-05-19
         <p class="explanation" id="exp2"></p>
     </div>
 
+    <!-- 第三關 -->
     <div id="stage3" class="stage">
         <p class="typing">第三關：哪一個才是安全的網站？</p>
         <ul>
-            <li><a href="#" onclick="chooseLink(false,'其實網域是 evil.com，不是真的 bank-secure.com')">http://login.bank-secure.com.evil.com</a></li>
+            <li><a href="#" onclick="chooseLink(false,'這個網址雖然看起來很像是bank-secure.com，但其實真正的主網域是後面的evil.com，所以這個網址是假的，用來釣魚的！')">http://login.bank-secure.com.evil.com</a></li>
             <li><a href="#" onclick="chooseLink(true)">https://bank-secure.com/login</a></li>
-            <li><a href="#" onclick="chooseLink(false,'網址 bank-secure-login.com 看起來像真的，但其實不是官方網站')">https://bank-secure-login.com.fake.org</a></li>
+            <li><a href="#" onclick="chooseLink(false,'真正的網域是fake.org，前面的bank-secure-login.com是子網域，所以這個網址是假的！')">https://bank-secure-login.com.fake.org</a></li>
         </ul>
         <p class="explanation" id="exp3"></p>
     </div>
 
+    <!-- 第四關 -->
     <div id="stage4" class="stage">
-        <p class="typing">第四關：二進位轉十進位！ 101101 是多少？</p>
+        <p class="typing">第四關：二進位轉十進位！<br>
+        題目：<code>101101</code><br>
+        概念：我們常見的十進位是逢十進一，那麼二進位就是逢二進一
+        提示：十進位的個位數是10的0次方，十位數是10的1次方，二進位也是一樣的規則，最右邊是2的0次方，右邊數來第二位是2的1次方</p>
         <input type="text" id="answer4" placeholder="輸入數字">
         <button onclick="checkAnswer(4)">提交</button>
         <p class="explanation" id="exp4"></p>
     </div>
 
+    <!-- 第五關 -->
     <div id="stage5" class="stage">
         <p class="typing">最後一關：請輸入我們社團的 IG 帳號</p>
         <input type="text" id="answer5" placeholder="輸入帳號">
@@ -126,6 +133,7 @@ Birthday: 2007-05-19
         <p class="explanation" id="exp5"></p>
     </div>
 
+    <!-- 結尾 -->
     <div id="final" class="stage" style="text-align:center;">
         <h2>🎉 恭喜破關！ 🎉</h2>
         <p>FLAG{you_have_a_gift_to_receive}</p>
@@ -134,7 +142,6 @@ Birthday: 2007-05-19
 </div>
 
 <script>
-
 function startChallenge() {
     document.getElementById("cover").style.display = "none";
     document.getElementById("stage1").style.display = "block";
@@ -167,7 +174,7 @@ function chooseLink(correct, reason="") {
         setTimeout(function() {
             document.getElementById("stage3").style.display = "none";
             document.getElementById("stage4").style.display = "block";
-        }, 1000);
+        }, 2000);
     } else {
         document.getElementById("exp3").textContent = "錯誤！" + reason;
     }
@@ -175,17 +182,17 @@ function chooseLink(correct, reason="") {
 function getExplanation(stage) {
     if(stage === 1) return "千萬不要把密碼直接寫在原始碼中！";
     if(stage === 2) return "弱密碼(像是名字+生日)非常容易被猜中。";
-    if(stage === 3) return "要檢查網址的真實網域，避免被釣魚，否則你在釣魚賞站輸入的資料可能會被竊取。";
-    if(stage === 4) return "101101(二進位) = 45(十進位)。";
+    if(stage === 3) return "選擇正確的網址很重要，要檢查網域是否正確要看「最後一個.前面的部分+最後一個字串」，才能避免被釣魚網站騙取資料。";
+    if(stage === 4) return "101101(二進位) = 45(十進位)。公式就是把每個位數依序乘上 2 的次方再加總。";
     if(stage === 5) return "感謝挑戰！歡迎加入資研社！";
     return "";
 }
 
+// 背景動畫
 const canvas = document.getElementById("matrixCanvas");
 const ctx = canvas.getContext("2d");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
-
 const letters = "01";
 const fontSize = 14;
 const columns = canvas.width / fontSize;
