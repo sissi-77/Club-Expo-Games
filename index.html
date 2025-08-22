@@ -70,6 +70,19 @@ a {
     z-index:-1;
     background: rgba(5,13,26,0.95);
 }
+.question-box {
+    background: rgba(0, 245, 255, 0.1);
+    border: 1px solid #00f5ff;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px auto;
+    width: 80%;
+    line-height: 1.8em;
+}
+.question-box code {
+    color: #ff66ff;
+    font-size: 22px;
+}
 </style>
 </head>
 <body>
@@ -116,11 +129,14 @@ Birthday: 2007-05-19
 
     <!-- 第四關 -->
     <div id="stage4" class="stage">
-        <p class="typing">第四關：二進位轉十進位！<br>
-        題目：<code>101101</code><br>
-        概念：我們常見的十進位是逢十進一，那麼二進位就是逢二進一<br>
-        提示：十進位的個位數是10的0次方，十位數是10的1次方<br>
-             二進位也是一樣的規則，最右邊是2的0次方，右邊數來第二位是2的1次方</p>
+        <p class="typing">第四關：二進位轉十進位！</p>
+        <div class="question-box">
+            <p><strong>題目：</strong> <code>101101</code></p>
+            <p><strong>概念：</strong> 十進位是逢十進一，那麼二進位就是逢二進一。</p>
+            <p><strong>提示：</strong><br>
+               十進位：個位數 = 10⁰，十位數 = 10¹<br>
+               二進位：最右邊 = 2⁰，右邊數來第二位 = 2¹，以此類推</p>
+        </div>
         <input type="text" id="answer4" placeholder="輸入數字">
         <button onclick="checkAnswer(4)">提交</button>
         <p class="explanation" id="exp4"></p>
@@ -164,7 +180,7 @@ function checkAnswer(stage) {
             } else {
                 document.getElementById("final").style.display = "block";
             }
-        }, 2000);
+        }, 3000);
     } else {
         alert("答案不正確，再試一次！");
     }
@@ -175,7 +191,7 @@ function chooseLink(correct, reason="") {
         setTimeout(function() {
             document.getElementById("stage3").style.display = "none";
             document.getElementById("stage4").style.display = "block";
-        }, 2000);
+        }, 3000);
     } else {
         document.getElementById("exp3").textContent = "錯誤！" + reason;
     }
